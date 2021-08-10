@@ -6,6 +6,11 @@ it("renders without crashing", function () {
   render(<Carousel />);
 })
 
+it("matches snapshot", function () {
+  const { container } = render(<Carousel />);
+  expect(container).toMatchSnapshot();
+})
+
 it("works when you click on the right arrow", function () {
   const { container } = render(<Carousel />);
 
@@ -30,20 +35,13 @@ it("works when you click on the right arrow", function () {
   ).toBeInTheDocument();
 });
 
-it("matches snapshot", function () {
-  const { container } = render(<Carousel />);
-  expect(container).toMatchSnapshot();
-})
-
 it("left arrow moves back to previous image", function () {
   const { container } = render(<Carousel />);
   const rightArrow = container.querySelector(".fa-chevron-circle-right");
+  const leftArrow = container.querySelector(".fa-chevron-circle-left")
 
   //need move to 2nd image first before can test left arrow
   fireEvent.click(rightArrow);
-
-  //leftArrow does not exist on first image, so need to select after fireEvent
-  const leftArrow = container.querySelector(".fa-chevron-circle-left")
 
   //expect 2nd image to show and not the first image
   expect(
@@ -66,22 +64,23 @@ it("left arrow moves back to previous image", function () {
 it("left arrow missing on first image", function () {
   const { container } = render(<Carousel />);
   const rightArrow = container.querySelector(".fa-chevron-circle-right");
+  const leftArrow = container.querySelector(".fa-chevron-circle-left")
 
-  expect(container.querySelector("i")).not.toHaveClass("fa-chevron-circle-left");
+  // expect(container.querySelector("i")).not.toHaveClass("fa-chevron-circle-left");
+  expect(leftArrow).toHaveClass("hidden");
   expect(rightArrow).toBeInTheDocument();
 });
 
 it("right arrow missing on last image", function () {
   const { container } = render(<Carousel />);
   const rightArrow = container.querySelector(".fa-chevron-circle-right");
-
-  fireEvent.click(rightArrow);
-  fireEvent.click(rightArrow);
-
   const leftArrow = container.querySelector(".fa-chevron-circle-left");
 
+  fireEvent.click(rightArrow);
+  fireEvent.click(rightArrow);
+
   expect(leftArrow).toBeInTheDocument();
-  expect(container.querySelector("i")).not.toHaveClass("fa-chevron-circle-right");
+  expect(rightArrow).toHaveClass("hidden");
 });
 
 

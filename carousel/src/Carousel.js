@@ -5,7 +5,7 @@ import image2 from "./image2.jpg";
 import image3 from "./image3.jpg";
 import Card from "./Card";
 
-/** TODO:
+/** Carousel
  * Props:
  * - cardData - array of card objects with src & caption 
  * - title - string
@@ -21,14 +21,14 @@ function Carousel(props) {
   const goForward = () => setCardIdx(cardIdx + 1);
   const goBackward = () => setCardIdx(cardIdx - 1);
 
-  //TODO: once it reaches last photo, it errors/crashes
-  // because it doesn ot reset the number to starting so it just goes to undefined
+  //className={cardIdx === 0 ? "fas fa-chevron-circle-left fa-2x hidden" : "fas fa-chevron-circle-left fa-2x"}
+
   return (
     <div className="Carousel">
       <h1>{props.title}</h1>
       <div className="Carousel-main">
         <i
-          className={cardIdx === 0 ? "" : "fas fa-chevron-circle-left fa-2x"}
+          className= {`fas fa-chevron-circle-left fa-2x ${cardIdx === 0 ? 'hidden' : ''}`}
           onClick={goBackward}
         />
         <Card
@@ -38,7 +38,7 @@ function Carousel(props) {
           totalNum={total}
         />
         <i
-          className={cardIdx === 2 ? "" : "fas fa-chevron-circle-right fa-2x"}
+          className={`fas fa-chevron-circle-right fa-2x ${cardIdx === total-1 ? 'hidden' : ''}`}
           onClick={goForward}
         />
       </div>
