@@ -28,7 +28,7 @@ function Carousel(props) {
       <h1>{props.title}</h1>
       <div className="Carousel-main">
         <i
-          className="fas fa-chevron-circle-left fa-2x"
+          className={cardIdx === 0 ? "" : "fas fa-chevron-circle-left fa-2x"}
           onClick={goBackward}
         />
         <Card
@@ -38,7 +38,7 @@ function Carousel(props) {
           totalNum={total}
         />
         <i
-          className="fas fa-chevron-circle-right fa-2x"
+          className={cardIdx === 2 ? "" : "fas fa-chevron-circle-right fa-2x"}
           onClick={goForward}
         />
       </div>

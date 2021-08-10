@@ -2,11 +2,11 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import Carousel from "./Carousel";
 
-it("renders without crashing", function() {
+it("renders without crashing", function () {
   render(<Carousel />);
 })
 
-it("works when you click on the right arrow", function() {
+it("works when you click on the right arrow", function () {
   const { container } = render(<Carousel />);
 
   // expect the first image to show, but not the second
@@ -30,18 +30,21 @@ it("works when you click on the right arrow", function() {
   ).toBeInTheDocument();
 });
 
-it("matches snapshot", function() {
+it("matches snapshot", function () {
   const { container } = render(<Carousel />);
   expect(container).toMatchSnapshot();
 })
 
-it("left arrow moves back to previous image", function() {
+it("left arrow moves back to previous image", function () {
   const { container } = render(<Carousel />);
   const rightArrow = container.querySelector(".fa-chevron-circle-right");
-  const leftArrow = container.querySelector(".fa-chevron-circle-left")
-  // debug(container);
-  //TODO: need move to 2nd image first before can test left arrow
+
+  //need move to 2nd image first before can test left arrow
   fireEvent.click(rightArrow);
+
+  //leftArrow does not exist on first image, so need to select after fireEvent
+  const leftArrow = container.querySelector(".fa-chevron-circle-left")
+
   //expect 2nd image to show and not the first image
   expect(
     container.querySelector('img[alt="Photo by Richard Pasquarella on Unsplash"]')
@@ -58,4 +61,27 @@ it("left arrow moves back to previous image", function() {
   expect(
     container.querySelector('img[alt="Photo by Pratik Patel on Unsplash"]')
   ).not.toBeInTheDocument();
-})
+});
+
+it("left arrow missing on first image", function () {
+  const { container } = render(<Carousel />);
+  const rightArrow = container.querySelector(".fa-chevron-circle-right");
+
+  expect(container.querySelector("i")).not.toHaveClass("fa-chevron-circle-left");
+  expect(rightArrow).toBeInTheDocument();
+});
+
+it("right arrow missing on last image", function () {
+  const { container } = render(<Carousel />);
+  const rightArrow = container.querySelector(".fa-chevron-circle-right");
+
+  fireEvent.click(rightArrow);
+  fireEvent.click(rightArrow);
+
+  const leftArrow = container.querySelector(".fa-chevron-circle-left");
+
+  expect(leftArrow).toBeInTheDocument();
+  expect(container.querySelector("i")).not.toHaveClass("fa-chevron-circle-right");
+});
+
+
