@@ -1,6 +1,12 @@
 import React from "react";
 import "./Card.css";
 
+/** Creates a card with props of:
+ * - caption - string
+ * - src - image
+ * - currNum - number 
+ * - totalNum - number
+ */
 function Card(props) {
   return (
     <div className="Card">
